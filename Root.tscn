@@ -1,0 +1,128 @@
+[gd_scene load_steps=5 format=3 uid="uid://gtkjvn4nlsqu"]
+
+[ext_resource type="Script" uid="uid://dqi6fl7u5uo0c" path="res://src/LightChain.cs" id="1_gxo8o"]
+[ext_resource type="Script" uid="uid://cvggik4qimv7u" path="res://src/Light.cs" id="3_cwqeq"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_24d08"]
+
+[sub_resource type="Curve3D" id="Curve3D_24d08"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, -1.73, 0, 5.91, 8.138, 0, -1.655, 0, 0, 0, -0.57, 0, -4.335, 5.3547, 0, -0.57971, 0, 0, 0, -0.66, 0, 2.78, 3.73149, 0, -0.740424, 0, 0, 0, 0, 0, 0, 0, 0, -4.17603, 0, 0, -8, 0, 0, 0, -3.36881, 0, -2.66211),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Light" type="Node3D" parent="."]
+visible = false
+script = ExtResource("3_cwqeq")
+metadata/_custom_type_script = "uid://cvggik4qimv7u"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Light"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+mesh = SubResource("CylinderMesh_24d08")
+
+[node name="LightChain" type="Node3D" parent="." node_paths=PackedStringArray("Path", "LightContainer", "LightNode")]
+script = ExtResource("1_gxo8o")
+Brightness = 0.5
+Path = NodePath("Path3D")
+LightContainer = NodePath("Lights")
+LightNode = NodePath("../Light")
+LightCount = 10
+metadata/_custom_type_script = "uid://dqi6fl7u5uo0c"
+
+[node name="Path3D" type="Path3D" parent="LightChain"]
+curve = SubResource("Curve3D_24d08")
+
+[node name="Lights" type="Node" parent="LightChain"]
+
+[node name="Light_1" type="Node3D" parent="LightChain/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.26099, 0, 0.600313)
+script = ExtResource("3_cwqeq")
+metadata/_custom_type_script = "uid://cvggik4qimv7u"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightChain/Lights/Light_1"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+mesh = SubResource("CylinderMesh_24d08")
+
+[node name="Light_2" type="Node3D" parent="LightChain/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.63566, 0, 0.320496)
+script = ExtResource("3_cwqeq")
+metadata/_custom_type_script = "uid://cvggik4qimv7u"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightChain/Lights/Light_2"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+mesh = SubResource("CylinderMesh_24d08")
+
+[node name="Light_3" type="Node3D" parent="LightChain/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.06045, 0, -2.0293)
+script = ExtResource("3_cwqeq")
+metadata/_custom_type_script = "uid://cvggik4qimv7u"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightChain/Lights/Light_3"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+mesh = SubResource("CylinderMesh_24d08")
+
+[node name="Light_4" type="Node3D" parent="LightChain/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.82997, 0, -1.08866)
+script = ExtResource("3_cwqeq")
+metadata/_custom_type_script = "uid://cvggik4qimv7u"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightChain/Lights/Light_4"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+mesh = SubResource("CylinderMesh_24d08")
+
+[node name="Light_5" type="Node3D" parent="LightChain/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.27453, 0, -0.591368)
+script = ExtResource("3_cwqeq")
+metadata/_custom_type_script = "uid://cvggik4qimv7u"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightChain/Lights/Light_5"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+mesh = SubResource("CylinderMesh_24d08")
+
+[node name="Light_6" type="Node3D" parent="LightChain/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.878676, 0, -2.56939)
+script = ExtResource("3_cwqeq")
+metadata/_custom_type_script = "uid://cvggik4qimv7u"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightChain/Lights/Light_6"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+mesh = SubResource("CylinderMesh_24d08")
+
+[node name="Light_7" type="Node3D" parent="LightChain/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.293184, 0, -4.69215)
+script = ExtResource("3_cwqeq")
+metadata/_custom_type_script = "uid://cvggik4qimv7u"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightChain/Lights/Light_7"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+mesh = SubResource("CylinderMesh_24d08")
+
+[node name="Light_8" type="Node3D" parent="LightChain/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.84788, 0, -6.52608)
+script = ExtResource("3_cwqeq")
+metadata/_custom_type_script = "uid://cvggik4qimv7u"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightChain/Lights/Light_8"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+mesh = SubResource("CylinderMesh_24d08")
+
+[node name="Light_9" type="Node3D" parent="LightChain/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.21489, 0, -5.07993)
+script = ExtResource("3_cwqeq")
+metadata/_custom_type_script = "uid://cvggik4qimv7u"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightChain/Lights/Light_9"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+mesh = SubResource("CylinderMesh_24d08")
+
+[node name="Light_10" type="Node3D" parent="LightChain/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.36881, 0, -2.66211)
+script = ExtResource("3_cwqeq")
+metadata/_custom_type_script = "uid://cvggik4qimv7u"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightChain/Lights/Light_10"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+mesh = SubResource("CylinderMesh_24d08")

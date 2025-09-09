@@ -1,13 +1,14 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace TouchGrass
 {
     [Tool]
     [GlobalClass]
-    public partial class LightChain : Node3D
+    public partial class LightChain : Path3D
     {
         [Export(PropertyHint.Range, "0,1")]
         public float Brightness
@@ -15,7 +16,6 @@ namespace TouchGrass
             get => _brightness;
             private set => SetBrightness(value);
         }
-        [Export] public Path3D Path { get; set; }
         [Export] public Node LightContainer { get; set; }
         [Export] public Node3D LightNode { get; set; }
         [Export] public string Identifier;
@@ -36,12 +36,11 @@ namespace TouchGrass
         {
             base._EnterTree();
 
-            if (Path == null) throw new Exception("No path selected");
             if (LightContainer == null) throw new Exception("No Light Container selected");
             if (_light == null) throw new Exception("No light selected");
 
             // Using 'Node.Connect' automatically releases signal when node is freed
-            Path.Connect(Path3D.SignalName.CurveChanged, Callable.From(UpdateLightPositions));
+            Connect(Path3D.SignalName.CurveChanged, Callable.From(UpdateLightPositions));
         }
 
         public override void _Ready()
@@ -101,7 +100,7 @@ namespace TouchGrass
 
         private void UpdateLightPositions()
         {
-            var curve = Path.GetCurve();
+            var curve = GetCurve();
             var curveLength = curve.GetBakedLength();
             var pointOffset = curveLength / Math.Max(1, _lights.Count - 1);
             for (int i = 0; i < _lights.Count; i++)

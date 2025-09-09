@@ -1,12 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://gtkjvn4nlsqu"]
+[gd_scene load_steps=10 format=3 uid="uid://gtkjvn4nlsqu"]
 
-[ext_resource type="PackedScene" uid="uid://cjtkfr0mgpxvq" path="res://components/light.tscn" id="1_24d08"]
-[ext_resource type="Script" uid="uid://dqi6fl7u5uo0c" path="res://src/LightChain.cs" id="1_gxo8o"]
 [ext_resource type="Script" uid="uid://dn0lo4cbbk6l4" path="res://src/light_controllers/BasicLightController.cs" id="2_n0g3p"]
 [ext_resource type="Material" uid="uid://bmhfkxpelau10" path="res://materials/Ground.tres" id="4_cwqeq"]
-[ext_resource type="Script" uid="uid://cvggik4qimv7u" path="res://src/Light.cs" id="5_n0g3p"]
+[ext_resource type="PackedScene" uid="uid://bktq42j3hjeip" path="res://components/light_chain.tscn" id="4_g0d6c"]
 [ext_resource type="PackedScene" uid="uid://2oxdgu03lnbk" path="res://addons/character-controller/example/main/player.tscn" id="6_f5i44"]
-[ext_resource type="PackedScene" uid="uid://cxxkc1hbc7ikd" path="res://components/cattail.tscn" id="6_g0d6c"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_f5i44"]
 
@@ -21,29 +18,22 @@ sky = SubResource("Sky_n0g3p")
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_g0d6c"]
 
-[sub_resource type="Curve3D" id="Curve3D_24d08"]
-_data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -9.23976, 0, 12.4189, 0, 0, 0, 0, 0, 0, -9.17482, 0, -13.4899),
-"tilts": PackedFloat32Array(0, 0)
-}
-point_count = 2
-
 [node name="Root" type="Node3D"]
 
-[node name="Environment" type="Node" parent="."]
+[node name="Sky" type="Node" parent="."]
 
-[node name="Sun" type="DirectionalLight3D" parent="Environment"]
+[node name="Sun" type="DirectionalLight3D" parent="Sky"]
 transform = Transform3D(0.999998, 0.000565137, 0.00210819, -0.000911055, 0.985806, 0.167887, -0.00198339, -0.167888, 0.985804, 0, 10, 0)
 light_energy = 0.5
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Sky"]
 environment = SubResource("Environment_g0d6c")
 
 [node name="Ground" type="MeshInstance3D" parent="."]
 transform = Transform3D(16, 0, 0, 0, 16, 0, 0, 0, 16, 0, 0, 0)
 material_override = ExtResource("4_cwqeq")
 mesh = SubResource("PlaneMesh_170dk")
-skeleton = NodePath("../LightChain")
+skeleton = NodePath("")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, 0)
@@ -51,78 +41,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
 shape = SubResource("WorldBoundaryShape3D_g0d6c")
 
-[node name="LightController" type="Node" parent="."]
-script = ExtResource("2_n0g3p")
-
-[node name="ProtoLight" parent="." instance=ExtResource("1_24d08")]
-visible = false
-
-[node name="LightChain" type="Node3D" parent="." node_paths=PackedStringArray("Path", "LightContainer", "LightNode")]
-script = ExtResource("1_gxo8o")
-Brightness = 0.394415
-Path = NodePath("Path3D")
-LightContainer = NodePath("Lights")
-LightNode = NodePath("../ProtoLight")
-LightCount = 7
-metadata/_custom_type_script = "uid://dqi6fl7u5uo0c"
-
-[node name="Path3D" type="Path3D" parent="LightChain"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.865271, 0, 0)
-curve = SubResource("Curve3D_24d08")
-
-[node name="Lights" type="Node" parent="LightChain"]
-
-[node name="Light_1" type="Node3D" parent="LightChain/Lights" node_paths=PackedStringArray("LightNode") instance=ExtResource("1_24d08")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.23976, 0, 12.4189)
-script = ExtResource("5_n0g3p")
-Brightness = 0.394415
-LightNode = NodePath("OmniLight3D")
-metadata/_custom_type_script = "uid://cvggik4qimv7u"
-
-[node name="Light_2" type="Node3D" parent="LightChain/Lights" node_paths=PackedStringArray("LightNode") instance=ExtResource("1_24d08")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.22894, 0, 8.10077)
-script = ExtResource("5_n0g3p")
-Brightness = 0.394415
-LightNode = NodePath("OmniLight3D")
-metadata/_custom_type_script = "uid://cvggik4qimv7u"
-
-[node name="Light_3" type="Node3D" parent="LightChain/Lights" node_paths=PackedStringArray("LightNode") instance=ExtResource("1_24d08")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.21811, 0, 3.78263)
-script = ExtResource("5_n0g3p")
-Brightness = 0.394415
-LightNode = NodePath("OmniLight3D")
-metadata/_custom_type_script = "uid://cvggik4qimv7u"
-
-[node name="Light_4" type="Node3D" parent="LightChain/Lights" node_paths=PackedStringArray("LightNode") instance=ExtResource("1_24d08")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.20729, 0, -0.5355)
-script = ExtResource("5_n0g3p")
-Brightness = 0.394415
-LightNode = NodePath("OmniLight3D")
-metadata/_custom_type_script = "uid://cvggik4qimv7u"
-
-[node name="Light_5" type="Node3D" parent="LightChain/Lights" node_paths=PackedStringArray("LightNode") instance=ExtResource("1_24d08")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.19647, 0, -4.85363)
-script = ExtResource("5_n0g3p")
-Brightness = 0.394415
-LightNode = NodePath("OmniLight3D")
-metadata/_custom_type_script = "uid://cvggik4qimv7u"
-
-[node name="Light_6" type="Node3D" parent="LightChain/Lights" node_paths=PackedStringArray("LightNode") instance=ExtResource("1_24d08")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.18564, 0, -9.17177)
-script = ExtResource("5_n0g3p")
-Brightness = 0.394415
-LightNode = NodePath("OmniLight3D")
-metadata/_custom_type_script = "uid://cvggik4qimv7u"
-
-[node name="Light_7" type="Node3D" parent="LightChain/Lights" node_paths=PackedStringArray("LightNode") instance=ExtResource("1_24d08")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.17482, 0, -13.4899)
-script = ExtResource("5_n0g3p")
-Brightness = 0.394415
-LightNode = NodePath("OmniLight3D")
-metadata/_custom_type_script = "uid://cvggik4qimv7u"
-
-[node name="Cattail" parent="." instance=ExtResource("6_g0d6c")]
-
 [node name="Player" parent="." instance=ExtResource("6_f5i44")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 9.7549)
 RotationToMove = false
+
+[node name="LightController" type="Node" parent="."]
+script = ExtResource("2_n0g3p")
+
+[node name="LightChain" parent="." instance=ExtResource("4_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 0)
+Brightness = 0.918978

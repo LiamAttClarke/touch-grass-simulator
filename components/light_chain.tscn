@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bktq42j3hjeip"]
+
+[ext_resource type="Script" uid="uid://dqi6fl7u5uo0c" path="res://src/LightChain.cs" id="1_xeric"]
+[ext_resource type="PackedScene" uid="uid://cjtkfr0mgpxvq" path="res://components/light.tscn" id="2_itnf8"]
+
+[sub_resource type="Curve3D" id="Curve3D_a011p"]
+
+[node name="LightChain" type="Path3D" node_paths=PackedStringArray("LightContainer", "LightNode")]
+curve = SubResource("Curve3D_a011p")
+script = ExtResource("1_xeric")
+LightContainer = NodePath("Lights")
+LightNode = NodePath("ProtoLight")
+metadata/_custom_type_script = "uid://dqi6fl7u5uo0c"
+
+[node name="ProtoLight" parent="." instance=ExtResource("2_itnf8")]
+visible = false
+
+[node name="Lights" type="Node" parent="."]

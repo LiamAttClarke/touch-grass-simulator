@@ -30,7 +30,8 @@ namespace TouchGrass
             if (LightContainer == null) throw new Exception("No Light Container selected");
             if (Light == null) throw new Exception("No light selected");
 
-            Path.CurveChanged += UpdateLightPositions;
+            // Using 'Connect' automatically releases signal when node is freed
+            Path.Connect(Path3D.SignalName.CurveChanged, Callable.From(UpdateLightPositions));
 
 
             GodotUtils.CollectNodes(LightContainer, Lights, skipHidden: true);

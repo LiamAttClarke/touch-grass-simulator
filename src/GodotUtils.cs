@@ -3,7 +3,6 @@ using Godot;
 
 public static class GodotUtils
 {
-
     public static void CollectNodes<T>(Node parent, List<T> outList, bool skipHidden = false) where T : Node3D
     {
         foreach (var node in parent.GetChildren())
@@ -32,15 +31,6 @@ public static class GodotUtils
                 unvistedChildren.Enqueue(child);
             }
             yield return nextChild;
-        }
-    }
-
-    public static void SetNodeOwner(Node node, Node owner)
-    {
-        node.Owner = owner;
-        foreach (var child in FindDescendants(node))
-        {
-            child.Owner = owner;
         }
     }
 

@@ -5,11 +5,9 @@ using System.Linq;
 
 namespace TouchGrass
 {
-
-
     [Tool]
     [GlobalClass]
-    public partial class LightChain : Node3D, ILight
+    public partial class LightChain : Node3D
     {
         [Export(PropertyHint.Range, "0,1")]
         public float Brightness
@@ -20,13 +18,19 @@ namespace TouchGrass
         [Export] public Path3D Path { get; set; }
         [Export] public Node LightContainer { get; set; }
         [Export] public Node3D LightNode { get; set; }
-        [Export(PropertyHint.Range, "0,100,or_greater")]
-        public int LightCount { get; set; }
+        [Export] public string Identifier;
+        [Export(PropertyHint.Range, "0,32,or_greater")]
+        public int Priority { get; set; }
+        [Export(PropertyHint.Range, "0,32,or_greater")]
+        public int LightCount
+        {
+            get => _lights.Count;
+            set => SetLightCount(value);
+        }
 
         private float _brightness = 1.0f;
         private Light _light => LightNode as Light;
         private List<Light> _lights = new();
-
 
         public override void _EnterTree()
         {
@@ -36,24 +40,16 @@ namespace TouchGrass
             if (LightContainer == null) throw new Exception("No Light Container selected");
             if (_light == null) throw new Exception("No light selected");
 
-            // Using 'Connect' automatically releases signal when node is freed
+            // Using 'Node.Connect' automatically releases signal when node is freed
             Path.Connect(Path3D.SignalName.CurveChanged, Callable.From(UpdateLightPositions));
-
-
-            GodotUtils.CollectNodes(LightContainer, _lights, skipHidden: true);
         }
 
         public override void _Ready()
         {
             base._Ready();
 
+            GodotUtils.CollectNodes(LightContainer, _lights, skipHidden: true);
             UpdateLightPositions();
-        }
-
-        public override void _Process(double delta)
-        {
-            base._Process(delta);
-            SetLightCount(LightCount);
         }
 
 
@@ -80,7 +76,7 @@ namespace TouchGrass
             if (Engine.IsEditorHint())
             {
                 var sceneRoot = GetTree().EditedSceneRoot;
-                GodotUtils.SetNodeOwner(lightClone, sceneRoot);
+                lightClone.Owner = sceneRoot;
             }
 
             UpdateLightPositions();
@@ -96,9 +92,9 @@ namespace TouchGrass
             UpdateLightPositions();
         }
 
-        private void SetLightCount(int lightCount)
+        public void SetLightCount(int lightCount)
         {
-            while (_lights.Count > Math.Max(lightCount, 0)) RemoveLight();
+            while (_lights.Count > lightCount) RemoveLight();
             while (_lights.Count < lightCount) AddLight();
         }
 

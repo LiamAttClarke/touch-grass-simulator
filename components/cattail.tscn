@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxxkc1hbc7ikd"]
+
+[ext_resource type="PackedScene" uid="uid://xek1p50uep1s" path="res://components/stalk_segment.tscn" id="1_fgg8g"]
+[ext_resource type="Material" uid="uid://cyi7e3a7tpjvv" path="res://materials/Cattail.tres" id="2_7xd2t"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7bwv5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7xd2t"]
+radius = 0.025
+height = 0.2
+
+[node name="Cattail" type="Node3D"]
+
+[node name="StalkSegment" parent="." instance=ExtResource("1_fgg8g")]
+gravity_scale = 0.0
+
+[node name="ConeTwistJoint3D" type="ConeTwistJoint3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+node_a = NodePath("../StalkSegment")
+node_b = NodePath("../StalkSegment2")
+
+[node name="StalkSegment2" parent="." instance=ExtResource("1_fgg8g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+gravity_scale = 0.0
+
+[node name="ConeTwistJoint3D2" type="ConeTwistJoint3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+node_a = NodePath("../StalkSegment2")
+node_b = NodePath("../StalkSegment3")
+
+[node name="StalkSegment3" parent="." instance=ExtResource("1_fgg8g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+gravity_scale = 0.0
+
+[node name="Tail" type="RigidBody3D" parent="StalkSegment3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StalkSegment3/Tail"]
+transform = Transform3D(0.05, 0, 0, 0, 0.1, 0, 0, 0, 0.05, 0, 0, 0.001)
+material_override = ExtResource("2_7xd2t")
+mesh = SubResource("CapsuleMesh_7bwv5")
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StalkSegment3/Tail"]
+shape = SubResource("CapsuleShape3D_7xd2t")

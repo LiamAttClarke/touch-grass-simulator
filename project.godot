@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 project/assembly_name="Touch Grass Simulator"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/character-controller/plugin.cfg")
+
 [input]
 
 move_right={

@@ -11,15 +11,21 @@ namespace TouchGrass
     [GlobalClass]
     public partial class LightChain : Node3D, ILight
     {
-        [Export(PropertyHint.Range, "0,1")] public float Brightness { get; private set; }
+        [Export(PropertyHint.Range, "0,1")]
+        public float Brightness
+        {
+            get => _brightness;
+            private set => SetBrightness(value);
+        }
         [Export] public Path3D Path { get; set; }
         [Export] public Node LightContainer { get; set; }
         [Export] public Node3D LightNode { get; set; }
         [Export(PropertyHint.Range, "0,100,or_greater")]
         public int LightCount { get; set; }
 
-        private Light Light => LightNode as Light;
-        List<Light> Lights = new();
+        private float _brightness = 1.0f;
+        private Light _light => LightNode as Light;
+        private List<Light> _lights = new();
 
 
         public override void _EnterTree()
@@ -28,13 +34,13 @@ namespace TouchGrass
 
             if (Path == null) throw new Exception("No path selected");
             if (LightContainer == null) throw new Exception("No Light Container selected");
-            if (Light == null) throw new Exception("No light selected");
+            if (_light == null) throw new Exception("No light selected");
 
             // Using 'Connect' automatically releases signal when node is freed
             Path.Connect(Path3D.SignalName.CurveChanged, Callable.From(UpdateLightPositions));
 
 
-            GodotUtils.CollectNodes(LightContainer, Lights, skipHidden: true);
+            GodotUtils.CollectNodes(LightContainer, _lights, skipHidden: true);
         }
 
         public override void _Ready()
@@ -53,8 +59,8 @@ namespace TouchGrass
 
         public void SetBrightness(float brightness)
         {
-            Brightness = brightness;
-            foreach (var light in Lights)
+            _brightness = brightness;
+            foreach (var light in _lights)
             {
                 light.SetBrightness(brightness);
             }
@@ -62,11 +68,12 @@ namespace TouchGrass
 
         public void AddLight()
         {
-            GD.Print("Add Light");
-            var lightClone = Light.Duplicate() as Light;
-            lightClone.Name = $"Light_{Lights.Count + 1}";
+            var lightClone = _light.Duplicate() as Light;
+            lightClone.Name = $"Light_{_lights.Count + 1}";
             lightClone.Visible = true;
-            Lights.Add(lightClone);
+            lightClone.SetBrightness(Brightness);
+
+            _lights.Add(lightClone);
             LightContainer.AddChild(lightClone);
 
             // Ensure node appears in editor scene heirarchy
@@ -81,9 +88,9 @@ namespace TouchGrass
 
         public void RemoveLight()
         {
-            if (Lights.Count == 0) return;
-            var light = Lights.Last();
-            Lights.Remove(light);
+            if (_lights.Count == 0) return;
+            var light = _lights.Last();
+            _lights.Remove(light);
             light.QueueFree();
 
             UpdateLightPositions();
@@ -91,18 +98,18 @@ namespace TouchGrass
 
         private void SetLightCount(int lightCount)
         {
-            while (Lights.Count > Math.Max(lightCount, 0)) RemoveLight();
-            while (Lights.Count < lightCount) AddLight();
+            while (_lights.Count > Math.Max(lightCount, 0)) RemoveLight();
+            while (_lights.Count < lightCount) AddLight();
         }
 
         private void UpdateLightPositions()
         {
             var curve = Path.GetCurve();
             var curveLength = curve.GetBakedLength();
-            var pointOffset = curveLength / Lights.Count;
-            for (int i = 0; i < Lights.Count; i++)
+            var pointOffset = curveLength / _lights.Count;
+            for (int i = 0; i < _lights.Count; i++)
             {
-                var light = Lights[i];
+                var light = _lights[i];
                 light.GlobalPosition = curve.SampleBaked((i + 1) * pointOffset);
             }
         }

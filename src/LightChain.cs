@@ -94,6 +94,7 @@ namespace TouchGrass
 
         public void SetLightCount(int lightCount)
         {
+            if (!IsNodeReady()) return;
             while (_lights.Count > lightCount) RemoveLight();
             while (_lights.Count < lightCount) AddLight();
         }
@@ -102,11 +103,11 @@ namespace TouchGrass
         {
             var curve = Path.GetCurve();
             var curveLength = curve.GetBakedLength();
-            var pointOffset = curveLength / _lights.Count;
+            var pointOffset = curveLength / Math.Max(1, _lights.Count - 1);
             for (int i = 0; i < _lights.Count; i++)
             {
                 var light = _lights[i];
-                light.GlobalPosition = curve.SampleBaked((i + 1) * pointOffset);
+                light.GlobalPosition = curve.SampleBaked(i * pointOffset);
             }
         }
     }

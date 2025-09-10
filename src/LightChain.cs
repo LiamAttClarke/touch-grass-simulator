@@ -125,7 +125,7 @@ namespace TouchGrass
             for (int i = 0; i < _lights.Count; i++)
             {
                 var light = _lights[i];
-                light.GlobalPosition = curve.SampleBaked(i * pointOffset);
+                light.GlobalPosition = GlobalPosition + curve.SampleBaked(i * pointOffset);
             }
         }
     }

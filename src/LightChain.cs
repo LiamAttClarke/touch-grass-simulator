@@ -39,8 +39,12 @@ namespace TouchGrass
             if (LightContainer == null) throw new Exception("No Light Container selected");
             if (_light == null) throw new Exception("No light selected");
 
-            // Using 'Node.Connect' automatically releases signal when node is freed
-            Connect(Path3D.SignalName.CurveChanged, Callable.From(UpdateLightPositions));
+            if (Engine.IsEditorHint())
+            {
+                // Using 'Node.Connect' automatically releases signal when node is freed
+                Connect(Path3D.SignalName.CurveChanged, Callable.From(UpdateLightPositions));
+                SetNotifyTransform(true);
+            }
         }
 
         public override void _Ready()
@@ -51,6 +55,15 @@ namespace TouchGrass
             UpdateLightPositions();
         }
 
+        public override void _Notification(int notification)
+        {
+            switch (notification)
+            {
+                case (int)NotificationTransformChanged:
+                    UpdateLightPositions();
+                    break;
+            }
+        }
 
         public void SetBrightness(float brightness)
         {

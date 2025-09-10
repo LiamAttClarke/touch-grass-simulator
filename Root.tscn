@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://gtkjvn4nlsqu"]
+[gd_scene load_steps=11 format=3 uid="uid://gtkjvn4nlsqu"]
 
 [ext_resource type="Script" uid="uid://dn0lo4cbbk6l4" path="res://src/light_controllers/BasicLightController.cs" id="2_n0g3p"]
 [ext_resource type="Material" uid="uid://bmhfkxpelau10" path="res://materials/Ground.tres" id="4_cwqeq"]
@@ -18,6 +18,13 @@ sky = SubResource("Sky_n0g3p")
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_g0d6c"]
 
+[sub_resource type="Curve3D" id="Curve3D_cwqeq"]
+_data = {
+"points": PackedVector3Array(0.8, -1, -9.3, 0, 0, 0, 0.52637, 0, -25.7128, 0.8, -1, -9.3, -0.8, 1, 9.3, 26.7121, 0, -14.5524, 1.3, -0.1, -5.1, -1.3, 0.1, 5.1, -4.31181, 0, 1.12808, 0.7, 0, -5.8, -0.7, 0, 5.8, 19.3264, 0, 12.1879, 0, 0, 0, 0, 0, 0, 10.3462, 0, 22.0823),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
 [node name="Root" type="Node3D"]
 
 [node name="Sky" type="Node" parent="."]
@@ -30,7 +37,7 @@ light_energy = 0.5
 environment = SubResource("Environment_g0d6c")
 
 [node name="Ground" type="MeshInstance3D" parent="."]
-transform = Transform3D(16, 0, 0, 0, 16, 0, 0, 0, 16, 0, 0, 0)
+transform = Transform3D(27.2, 0, 0, 0, 16, 0, 0, 0, 36.8, 15.3375, 0, 0)
 material_override = ExtResource("4_cwqeq")
 mesh = SubResource("PlaneMesh_170dk")
 skeleton = NodePath("")
@@ -47,7 +54,16 @@ RotationToMove = false
 
 [node name="LightController" type="Node" parent="."]
 script = ExtResource("2_n0g3p")
+Enabled = false
 
 [node name="LightChain" parent="." instance=ExtResource("4_g0d6c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 0)
-Brightness = 0.918978
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+curve = SubResource("Curve3D_cwqeq")
+Brightness = 0.419
+LightCount = 13
+
+[node name="LightChain2" parent="." instance=ExtResource("4_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+curve = SubResource("Curve3D_cwqeq")
+Brightness = 0.419
+LightCount = 13

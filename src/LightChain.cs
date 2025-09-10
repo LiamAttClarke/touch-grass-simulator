@@ -22,11 +22,7 @@ namespace TouchGrass
         [Export(PropertyHint.Range, "0,32,or_greater")]
         public int Priority { get; set; }
         [Export(PropertyHint.Range, "0,32,or_greater")]
-        public int LightCount
-        {
-            get => _lights.Count;
-            set => SetLightCount(value);
-        }
+        public int LightCount { get; set; }
 
         private float _brightness = 1.0f;
         private Light _light => LightNode as Light;
@@ -55,6 +51,14 @@ namespace TouchGrass
             UpdateLightPositions();
         }
 
+        public override void _Process(double delta)
+        {
+            base._Process(delta);
+
+            SetLightCount(LightCount);
+        }
+
+
         public override void _Notification(int notification)
         {
             switch (notification)
@@ -64,6 +68,7 @@ namespace TouchGrass
                     break;
             }
         }
+
 
         public void SetBrightness(float brightness)
         {
@@ -106,6 +111,7 @@ namespace TouchGrass
 
         public void SetLightCount(int lightCount)
         {
+            if (_lights.Count == LightCount) return;
             if (!IsNodeReady()) return;
             while (_lights.Count > lightCount) RemoveLight();
             while (_lights.Count < lightCount) AddLight();

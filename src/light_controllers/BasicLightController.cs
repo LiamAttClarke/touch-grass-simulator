@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using Godot;
 
 namespace TouchGrass
@@ -7,23 +7,36 @@ namespace TouchGrass
     [GlobalClass]
     public partial class BasicLightController : BaseLightController
     {
-        [Export] public float Amplitude = 1.0f;
+        [Export] public float ForceAttenuation = 1.0f;
         private float _timeElapsedS = 0.0f;
 
         public override void _Ready()
         {
             base._Ready();
+
+            // Add one-time initializations here
         }
 
-        protected override void UpdateLights(List<LightChain> lightChains, List<Accelerometer> accelerometers, double delta)
+        protected override void UpdateLights(double delta)
         {
+            // Add animation logic here.
+            // This is called once per frame.
+
             _timeElapsedS += (float)delta;
 
-            var brightness = (Mathf.Sin(_timeElapsedS) + 1) * 0.5f * Amplitude;
-
-            foreach (var lightChain in lightChains)
+            foreach (var lightChain in _lightChains)
             {
-                lightChain.SetBrightness(brightness);
+                var totalEnergy = 0f;
+                var chainCurve = lightChain.GetCurve();
+
+                foreach (var accelerometer in _accelerometers)
+                {
+                    var distanceToChain = chainCurve.GetClosestOffset(accelerometer.Position);
+                    totalEnergy += Mathf.Pow(distanceToChain, ForceAttenuation) * accelerometer.Acceleration.Length();
+                }
+
+
+                lightChain.SetBrightness(totalEnergy);
             }
         }
     }

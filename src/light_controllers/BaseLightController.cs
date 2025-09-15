@@ -9,8 +9,8 @@ namespace TouchGrass
     public abstract partial class BaseLightController : Node
     {
         [Export] public bool Enabled = true;
-        private List<Accelerometer> _accelerometers = new();
-        private List<LightChain> _lightChains = new();
+        protected List<Accelerometer> _accelerometers = new();
+        protected List<LightChain> _lightChains = new();
 
         public override void _Ready()
         {
@@ -18,8 +18,8 @@ namespace TouchGrass
 
             var sceneTree = GetTree();
             var currentScene = Engine.IsEditorHint() ? sceneTree.EditedSceneRoot : sceneTree.CurrentScene;
-            GodotUtils.CollectNodes(currentScene, _accelerometers, skipHidden: true);
-            GodotUtils.CollectNodes(currentScene, _lightChains, skipHidden: true);
+            GodotUtils.CollectNodes(currentScene, _lightChains, recursive: true);
+            GodotUtils.CollectNodes(currentScene, _accelerometers, recursive: true);
             _lightChains.Sort((a, b) => a.Priority.CompareTo(b.Priority));
         }
 
@@ -29,11 +29,11 @@ namespace TouchGrass
 
             if (Enabled)
             {
-                UpdateLights(_lightChains, _accelerometers, delta);
+                UpdateLights(delta);
             }
         }
 
-        protected abstract void UpdateLights(List<LightChain> lightChains, List<Accelerometer> accelerometers, double delta);
+        protected abstract void UpdateLights(double delta);
 
     }
 }

@@ -3,20 +3,7 @@ using Godot;
 
 public static class GodotUtils
 {
-    public static void CollectNodes<T>(Node parent, List<T> outList, bool skipHidden = false) where T : Node3D
-    {
-        foreach (var node in parent.GetChildren())
-        {
-            if (node is T)
-            {
-                var targetNode = (T)node;
-                if (skipHidden && !targetNode.IsVisibleInTree()) continue;
-                outList.Add(targetNode);
-            }
-        }
-    }
-
-    public static IEnumerable<Node> FindDescendants(Node parent)
+    public static void CollectNodes<T>(Node parent, List<T> outList, bool recursive = false) where T : Node
     {
         var unvistedChildren = new Queue<Node>();
         foreach (var child in parent.GetChildren())
@@ -26,19 +13,17 @@ public static class GodotUtils
         while (unvistedChildren.Count > 0)
         {
             var nextChild = unvistedChildren.Dequeue();
-            foreach (var child in nextChild.GetChildren())
+            if (nextChild is T)
             {
-                unvistedChildren.Enqueue(child);
+                outList.Add(nextChild as T);
             }
-            yield return nextChild;
-        }
-    }
-
-    public static void DeleteChildren(Node parent)
-    {
-        foreach (var node in parent.GetChildren())
-        {
-            node.Free();
+            else if (recursive)
+            {
+                foreach (var child in nextChild.GetChildren())
+                {
+                    unvistedChildren.Enqueue(child);
+                }
+            }
         }
     }
 }

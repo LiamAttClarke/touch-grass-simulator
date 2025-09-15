@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://gtkjvn4nlsqu"]
+[gd_scene load_steps=12 format=3 uid="uid://gtkjvn4nlsqu"]
 
 [ext_resource type="Script" uid="uid://dn0lo4cbbk6l4" path="res://src/light_controllers/BasicLightController.cs" id="2_n0g3p"]
 [ext_resource type="Material" uid="uid://bmhfkxpelau10" path="res://materials/Ground.tres" id="4_cwqeq"]
 [ext_resource type="PackedScene" uid="uid://bktq42j3hjeip" path="res://components/light_chain.tscn" id="4_g0d6c"]
+[ext_resource type="PackedScene" uid="uid://hr5j666man54" path="res://components/cattail.tscn" id="5_3ipfy"]
 [ext_resource type="PackedScene" uid="uid://2oxdgu03lnbk" path="res://addons/character-controller/example/main/player.tscn" id="6_f5i44"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_f5i44"]
@@ -20,7 +21,7 @@ sky = SubResource("Sky_n0g3p")
 
 [sub_resource type="Curve3D" id="Curve3D_cwqeq"]
 _data = {
-"points": PackedVector3Array(0.8, -1, -9.3, 0, 0, 0, 0.52637, 0, -25.7128, 0.8, -1, -9.3, -0.8, 1, 9.3, 26.7121, 0, -14.5524, 1.3, -0.1, -5.1, -1.3, 0.1, 5.1, -4.31181, 0, 1.12808, 0.7, 0, -5.8, -0.7, 0, 5.8, 19.3264, 0, 12.1879, 0, 0, 0, 0, 0, 0, 10.3462, 0, 22.0823),
+"points": PackedVector3Array(0.8, 0, -9.3, 0, 0, 0, 10.5264, 0, -25.7128, 0.8, 0, -9.3, -0.8, 0, 9.3, 25.0058, 0, -11.9008, 1.3, 0, -5.1, -1.3, 0, 5.1, 16.9621, 0, -2.50195, 0.7, 0, -5.8, -0.7, 0, 5.8, 19.3264, 0, 12.1879, 0, 0, 0, 0, 0, 0, 10.3462, 0, 22.0823),
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0)
 }
 point_count = 5
@@ -37,7 +38,7 @@ light_energy = 0.5
 environment = SubResource("Environment_g0d6c")
 
 [node name="Ground" type="MeshInstance3D" parent="."]
-transform = Transform3D(27.2, 0, 0, 0, 16, 0, 0, 0, 36.8, 15.3375, 0, 0)
+transform = Transform3D(64, 0, 0, 0, 16, 0, 0, 0, 64, 15.3375, 0, 0)
 material_override = ExtResource("4_cwqeq")
 mesh = SubResource("PlaneMesh_170dk")
 skeleton = NodePath("")
@@ -49,21 +50,24 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, 0)
 shape = SubResource("WorldBoundaryShape3D_g0d6c")
 
 [node name="Player" parent="." instance=ExtResource("6_f5i44")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 9.7549)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.989515, 1, -43.7831)
 RotationToMove = false
 
 [node name="LightController" type="Node" parent="."]
 script = ExtResource("2_n0g3p")
-Enabled = false
+ForceAttenuation = 2.0
 
-[node name="LightChain" parent="." instance=ExtResource("4_g0d6c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
-curve = SubResource("Curve3D_cwqeq")
-Brightness = 0.419
-LightCount = 13
-
-[node name="LightChain2" parent="." instance=ExtResource("4_g0d6c")]
+[node name="LightChain_A" parent="." instance=ExtResource("4_g0d6c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
 curve = SubResource("Curve3D_cwqeq")
-Brightness = 0.419
+Brightness = 0.0
 LightCount = 13
+
+[node name="LightChain_B" parent="." instance=ExtResource("4_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 0, 0)
+curve = SubResource("Curve3D_cwqeq")
+Brightness = 0.0
+LightCount = 13
+
+[node name="Cattail_A" parent="." instance=ExtResource("5_3ipfy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -37.526)

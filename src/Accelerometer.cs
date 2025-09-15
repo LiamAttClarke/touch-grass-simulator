@@ -3,11 +3,10 @@ using System;
 
 namespace TouchGrass
 {
+    [GlobalClass]
     public partial class Accelerometer : RigidBody3D
     {
-        [Export] public string Identifier;
-        [Export]
-        public Vector3 Acceleration { get; private set; }
+        [Export] public Vector3 Acceleration { get; private set; }
 
         private Vector3 _previousVelocity;
 
@@ -23,8 +22,6 @@ namespace TouchGrass
             base._PhysicsProcess(delta);
 
             Acceleration = (LinearVelocity - _previousVelocity) / (float)delta;
-
-
 
             _previousVelocity = LinearVelocity;
         }

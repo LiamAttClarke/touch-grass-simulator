@@ -18,7 +18,6 @@ namespace TouchGrass
         }
         [Export] public Node LightContainer { get; set; }
         [Export] public Node3D LightNode { get; set; }
-        [Export] public string Identifier;
         [Export(PropertyHint.Range, "0,32,or_greater")]
         public int Priority { get; set; }
         [Export(PropertyHint.Range, "0,32,or_greater")]
@@ -38,7 +37,7 @@ namespace TouchGrass
             if (Engine.IsEditorHint())
             {
                 // Using 'Node.Connect' automatically releases signal when node is freed
-                Connect(Path3D.SignalName.CurveChanged, Callable.From(UpdateLightPositions));
+                Connect(Path3D.SignalName.CurveChanged, Callable.From(HandleCurveChanged));
                 SetNotifyTransform(true);
             }
         }
@@ -47,7 +46,7 @@ namespace TouchGrass
         {
             base._Ready();
 
-            GodotUtils.CollectNodes(LightContainer, _lights, skipHidden: true);
+            GodotUtils.CollectNodes(LightContainer, _lights);
             UpdateLightPositions();
         }
 
@@ -127,6 +126,31 @@ namespace TouchGrass
                 var light = _lights[i];
                 light.GlobalPosition = GlobalPosition + curve.SampleBaked(i * pointOffset);
             }
+        }
+
+        private void HandleCurveChanged()
+        {
+            // Ensure all point positions are in the Vector3.Up plane at point Transform.GlobalPosition
+            var curve = GetCurve();
+            for (int i = 0; i < curve.PointCount; i++)
+            {
+                var currentPosition = curve.GetPointPosition(i);
+                var currentIn = curve.GetPointIn(i);
+                var currentOut = curve.GetPointOut(i);
+
+                var targetY = GlobalPosition.Y;
+
+                var newPosition = new Vector3(currentPosition.X, targetY, currentPosition.Z);
+                var newIn = new Vector3(currentIn.X, targetY, currentIn.Z);
+                var newOut = new Vector3(currentOut.X, targetY, currentOut.Z);
+                // Setting point properties will trigger a CurveChanged signal,
+                // only do so if the value has actually changed to prevent an endless loop.
+                if (newPosition != currentPosition) curve.SetPointPosition(i, newPosition);
+                if (newIn != currentIn) curve.SetPointIn(i, newIn);
+                if (newOut != currentOut) curve.SetPointOut(i, newOut);
+            }
+
+            UpdateLightPositions();
         }
     }
 }

@@ -7,7 +7,7 @@ using System;
 public partial class Accelerometer : RigidBody3D
 {
     [Export] public Vector3 Acceleration { get; private set; }
-    [Export] public float Elasticity = 1.0f;
+    [Export] public float SpringConstant = 1.0f;
 
     private Vector3 _previousVelocity;
     private Vector3 _origin;
@@ -28,9 +28,10 @@ public partial class Accelerometer : RigidBody3D
 
         _previousVelocity = LinearVelocity;
 
-        // Recenter
+        // Apply spring force to return the cattail to it's origin after a disturbance
         // TODO: Move this to another component
         var toOrigin = _origin - GlobalPosition;
-        ConstantForce = toOrigin.Normalized() * toOrigin.LengthSquared() * Elasticity;
+        var elasticPotential = 0.5f * toOrigin.LengthSquared() * SpringConstant;
+        ConstantForce = toOrigin.Normalized() * elasticPotential;
     }
 }

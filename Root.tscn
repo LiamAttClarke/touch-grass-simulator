@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://gtkjvn4nlsqu"]
+[gd_scene load_steps=23 format=3 uid="uid://gtkjvn4nlsqu"]
 
-[ext_resource type="Script" uid="uid://dn0lo4cbbk6l4" path="res://src/light_controllers/BasicLightController.cs" id="2_n0g3p"]
-[ext_resource type="Material" uid="uid://bmhfkxpelau10" path="res://materials/Ground.tres" id="4_cwqeq"]
+[ext_resource type="Texture2D" uid="uid://5keruectngys" path="res://assets/royal-botanical-gardens.png" id="1_2qvp8"]
+[ext_resource type="Script" uid="uid://c7lhp5lwlfiyj" path="res://src/PlayerController.cs" id="2_3ipfy"]
+[ext_resource type="Script" uid="uid://dn0lo4cbbk6l4" path="res://src/light_controllers/FlickerFadeLightController.cs" id="2_n0g3p"]
+[ext_resource type="Material" uid="uid://4o46522dd1ql" path="res://materials/cursor.tres" id="3_g0d6c"]
 [ext_resource type="PackedScene" uid="uid://bktq42j3hjeip" path="res://components/light_chain.tscn" id="4_g0d6c"]
-[ext_resource type="PackedScene" uid="uid://hr5j666man54" path="res://components/cattail.tscn" id="5_3ipfy"]
-[ext_resource type="PackedScene" uid="uid://2oxdgu03lnbk" path="res://addons/character-controller/example/main/player.tscn" id="6_f5i44"]
+[ext_resource type="PackedScene" uid="uid://hr5j666man54" path="res://components/cattail.tscn" id="6_g0d6c"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_f5i44"]
 
@@ -15,16 +16,80 @@ sky_material = SubResource("PhysicalSkyMaterial_f5i44")
 background_mode = 2
 sky = SubResource("Sky_n0g3p")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8hd61"]
+albedo_texture = ExtResource("1_2qvp8")
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_170dk"]
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_g0d6c"]
+[sub_resource type="HeightMapShape3D" id="HeightMapShape3D_g0d6c"]
+map_width = 4
+map_depth = 4
+map_data = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+[sub_resource type="SphereMesh" id="SphereMesh_g0d6c"]
 
 [sub_resource type="Curve3D" id="Curve3D_cwqeq"]
 _data = {
-"points": PackedVector3Array(0.8, 0, -9.3, 0, 0, 0, 10.5264, 0, -25.7128, 0.8, 0, -9.3, -0.8, 0, 9.3, 25.0058, 0, -11.9008, 1.3, 0, -5.1, -1.3, 0, 5.1, 16.9621, 0, -2.50195, 0.7, 0, -5.8, -0.7, 0, 5.8, 19.3264, 0, 12.1879, 0, 0, 0, 0, 0, 0, 10.3462, 0, 22.0823),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 45.3963, 0, 30.3698, 10.3297, 0, 21.1596, -10.3297, 0, -21.1596, 24.0213, 0, -19.1731, 0, 0, 0, 0, 0, 0, -8.67061, 0, -63.4034),
+"tilts": PackedFloat32Array(0, 0, 0)
 }
-point_count = 5
+point_count = 3
+
+[sub_resource type="Curve3D" id="Curve3D_f5i44"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 52.188, 0, 41.4439, 17.2354, 0, 32.9964, -17.2354, 0, -32.9964, 31.3729, 0, -7.67007, 0, 0, 0, 0, 0, 0, -3.72656, 0, -60.7708),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Curve3D" id="Curve3D_n0g3p"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 42.7169, 0, 47.2824, 18.1034, 0, 35.7604, -18.1034, 0, -35.7604, 23.235, 0, -2.68988, 0, 0, 0, 0, 0, 0, -9.08672, 0, -59.2138),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Curve3D" id="Curve3D_2qvp8"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 32.4686, 0, 54.7192, 9.86158, 0, 25.5931, -9.86158, 0, -25.5931, 19.1863, 0, 14.0576, 0, 0, 0, 0, 0, 0, -10.2306, 0, -50.4093),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Curve3D" id="Curve3D_8hd61"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 19.5104, 0, 61.9901, 9.61793, 0, 29.104, -9.61793, 0, -29.104, 5.82724, 0, 10.3649, 0, 0, 0, 0, 0, 0, -13.2685, 0, -45.2142),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Curve3D" id="Curve3D_hbe7s"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 9.25427, 0, 66.5849, 4.67066, 0, 21.8239, -4.67066, 0, -21.8239, -0.458912, 0, 18.3108, 0, 0, 0, 0, 0, 0, -12.5741, 0, -36.5716),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Curve3D" id="Curve3D_g1ltr"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -4.71425, 0, 72.0412, 2.01764, 0, 18.3332, -2.01764, 0, -18.3332, -11.5321, 0, 23.2605, 0, 0, 0, 0, 0, 0, -14.1361, 0, -36.4955),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Curve3D" id="Curve3D_ebfx1"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -18.7973, 0, 72.0287, -0.145208, 0, 27.2398, 0.145208, 0, -27.2398, -24.2989, 0, 19.6065, 0, 0, 0, 0, 0, 0, -14.2929, 0, -35.9406),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Curve3D" id="Curve3D_bsue6"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -30.7104, 0, 67.3009, -4.45281, 0, 29.9556, 4.45281, 0, -29.9556, -33.0876, 0, 13.7575, 0, 0, 0, 0, 0, 0, -12.7785, 0, -39.6328),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
 
 [node name="Root" type="Node3D"]
 
@@ -38,8 +103,8 @@ light_energy = 0.5
 environment = SubResource("Environment_g0d6c")
 
 [node name="Ground" type="MeshInstance3D" parent="."]
-transform = Transform3D(64, 0, 0, 0, 16, 0, 0, 0, 64, 15.3375, 0, 0)
-material_override = ExtResource("4_cwqeq")
+transform = Transform3D(512, 0, 0, 0, 512, 0, 0, 0, 512, 15.3375, 0, 0)
+material_override = SubResource("StandardMaterial3D_8hd61")
 mesh = SubResource("PlaneMesh_170dk")
 skeleton = NodePath("")
 
@@ -47,27 +112,120 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
-shape = SubResource("WorldBoundaryShape3D_g0d6c")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00161743, 0.00621388, -0.00561523)
+shape = SubResource("HeightMapShape3D_g0d6c")
 
-[node name="Player" parent="." instance=ExtResource("6_f5i44")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.989515, 1, -43.7831)
-RotationToMove = false
+[node name="PlayerController" type="RayCast3D" parent="." node_paths=PackedStringArray("LightController", "Camera", "OrbitTarget", "Cursor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.2875, 0, -295.658)
+script = ExtResource("2_3ipfy")
+LightController = NodePath("../LightController")
+ImpulseRadius = 10.0
+ImpulseMagnitude = 10.0
+Camera = NodePath("Camera3D")
+OrbitTarget = NodePath("OrbitTarget")
+Cursor = NodePath("Cursor")
+HorizontalCameraSpeed = 100.0
+VerticalCameraSpeed = 100.0
+MaxZoom = 10.0
+MinHeight = -40.0
+MaxHeight = 40.0
+
+[node name="Cursor" type="MeshInstance3D" parent="PlayerController"]
+transform = Transform3D(10, 0, 0, 0, 10, -2.98023e-07, 0, 2.98023e-07, 10, 0, 0, 0)
+visible = false
+material_override = ExtResource("3_g0d6c")
+mesh = SubResource("SphereMesh_g0d6c")
+skeleton = NodePath("../Camera3D")
+
+[node name="OrbitTarget" type="Node3D" parent="PlayerController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.563232, 0, -57.4048)
+
+[node name="Camera3D" type="Camera3D" parent="PlayerController"]
+transform = Transform3D(1, 0, 0, 0, 0.221463, 0.975169, 0, -0.975169, 0.221463, 0, 32, -4.76837e-07)
+fov = 50.0
+size = 67.1
 
 [node name="LightController" type="Node" parent="."]
 script = ExtResource("2_n0g3p")
-ForceAttenuation = 2.0
+DissipationRate = 10.0
 
-[node name="LightChain_A" parent="." instance=ExtResource("4_g0d6c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+[node name="LightChain_1" parent="LightController" instance=ExtResource("4_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -121.424, 0, -368.235)
 curve = SubResource("Curve3D_cwqeq")
 Brightness = 0.0
-LightCount = 13
+LightCount = 16
 
-[node name="LightChain_B" parent="." instance=ExtResource("4_g0d6c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 0, 0)
-curve = SubResource("Curve3D_cwqeq")
+[node name="LightChain_2" parent="LightController" instance=ExtResource("4_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -117.524, 0, -384.845)
+curve = SubResource("Curve3D_f5i44")
 Brightness = 0.0
-LightCount = 13
+LightCount = 16
 
-[node name="Cattail_A" parent="." instance=ExtResource("5_3ipfy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -37.526)
+[node name="LightChain_3" parent="LightController" instance=ExtResource("4_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -98.0621, 0, -396.958)
+curve = SubResource("Curve3D_n0g3p")
+Brightness = 0.0
+LightCount = 16
+
+[node name="LightChain_4" parent="LightController" instance=ExtResource("4_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -76.5921, 0, -410.261)
+curve = SubResource("Curve3D_2qvp8")
+Brightness = 0.0
+LightCount = 16
+
+[node name="LightChain_5" parent="LightController" instance=ExtResource("4_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.7261, 0, -419.958)
+curve = SubResource("Curve3D_8hd61")
+Brightness = 0.0
+LightCount = 16
+
+[node name="LightChain_6" parent="LightController" instance=ExtResource("4_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.7431, 0, -426.568)
+curve = SubResource("Curve3D_hbe7s")
+Brightness = 0.0
+LightCount = 16
+
+[node name="LightChain_7" parent="LightController" instance=ExtResource("4_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.87903, 0, -432.259)
+curve = SubResource("Curve3D_g1ltr")
+Brightness = 0.0
+LightCount = 16
+
+[node name="LightChain_8" parent="LightController" instance=ExtResource("4_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.1826, 0, -432.259)
+curve = SubResource("Curve3D_ebfx1")
+Brightness = 0.0
+LightCount = 16
+
+[node name="LightChain_9" parent="LightController" instance=ExtResource("4_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.9675, 0, -425.69)
+curve = SubResource("Curve3D_bsue6")
+Brightness = 0.0
+LightCount = 16
+
+[node name="Cattail_1" parent="LightController" instance=ExtResource("6_g0d6c")]
+transform = Transform3D(0.895696, 0, -0.444666, 0, 1, 0, 0.444666, 0, 0.895696, -71.7943, 1.93181, -329.718)
+
+[node name="Cattail_2" parent="LightController" instance=ExtResource("6_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.4982, 1.93181, -336.967)
+
+[node name="Cattail_3" parent="LightController" instance=ExtResource("6_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.8959, 1.93181, -342.267)
+
+[node name="Cattail_4" parent="LightController" instance=ExtResource("6_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.6889, 1.93181, -347.582)
+
+[node name="Cattail_5" parent="LightController" instance=ExtResource("6_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.8473, 1.93181, -351.365)
+
+[node name="Cattail_6" parent="LightController" instance=ExtResource("6_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.7633, 1.93181, -352.64)
+
+[node name="Cattail_7" parent="LightController" instance=ExtResource("6_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.6675, 1.93181, -353.177)
+
+[node name="Cattail_8" parent="LightController" instance=ExtResource("6_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.14193, 1.93181, -352.417)
+
+[node name="Cattail_9" parent="LightController" instance=ExtResource("6_g0d6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.50498, 1.93181, -350.971)

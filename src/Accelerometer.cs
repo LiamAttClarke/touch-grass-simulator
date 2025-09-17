@@ -1,29 +1,36 @@
 using Godot;
 using System;
 
-namespace TouchGrass
+
+[Tool]
+[GlobalClass]
+public partial class Accelerometer : RigidBody3D
 {
-    [GlobalClass]
-    public partial class Accelerometer : RigidBody3D
+    [Export] public Vector3 Acceleration { get; private set; }
+    [Export] public float Elasticity = 1.0f;
+
+    private Vector3 _previousVelocity;
+    private Vector3 _origin;
+
+    public override void _Ready()
     {
-        [Export] public Vector3 Acceleration { get; private set; }
+        base._Ready();
 
-        private Vector3 _previousVelocity;
+        _previousVelocity = LinearVelocity;
+        _origin = GlobalPosition;
+    }
 
-        public override void _Ready()
-        {
-            base._Ready();
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
 
-            _previousVelocity = LinearVelocity;
-        }
+        Acceleration = (LinearVelocity - _previousVelocity) / (float)delta;
 
-        public override void _PhysicsProcess(double delta)
-        {
-            base._PhysicsProcess(delta);
+        _previousVelocity = LinearVelocity;
 
-            Acceleration = (LinearVelocity - _previousVelocity) / (float)delta;
-
-            _previousVelocity = LinearVelocity;
-        }
+        // Recenter
+        // TODO: Move this to another component
+        var toOrigin = _origin - GlobalPosition;
+        ConstantForce = toOrigin.Normalized() * toOrigin.LengthSquared() * Elasticity;
     }
 }

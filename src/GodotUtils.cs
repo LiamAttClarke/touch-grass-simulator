@@ -3,7 +3,7 @@ using Godot;
 
 public static class GodotUtils
 {
-    public static void CollectNodes<T>(Node parent, List<T> outList, bool recursive = false) where T : Node
+    public static void CollectNodes<T>(Node parent, List<T> outList, bool recursive = false, bool skipHidden = false) where T : Node
     {
         var unvistedChildren = new Queue<Node>();
         foreach (var child in parent.GetChildren())
@@ -13,7 +13,11 @@ public static class GodotUtils
         while (unvistedChildren.Count > 0)
         {
             var nextChild = unvistedChildren.Dequeue();
-            if (nextChild is T)
+            if (skipHidden && nextChild is Node3D && !(nextChild as Node3D).IsVisibleInTree())
+            {
+                continue;
+            }
+            else if (nextChild is T)
             {
                 outList.Add(nextChild as T);
             }

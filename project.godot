@@ -21,7 +21,7 @@ project/assembly_name="Touch Grass Simulator"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/character-controller/plugin.cfg")
+enabled=PackedStringArray("res://addons/accelerometer/plugin.cfg", "res://addons/character-controller/plugin.cfg", "res://addons/touch-grass/accelerometer/plugin.cfg")
 
 [input]
 
